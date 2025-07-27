@@ -6,15 +6,15 @@ import org.apache.logging.log4j.Logger;
 public class CalcResponse {
     private static final Logger log = LogManager.getLogger(CalcResponse.class);
     private String operation;
-    private double result;
+    private int result;   // changed from double to int
     private String message;
 
-    public CalcResponse(){}
+    public CalcResponse() {}
 
-    public CalcResponse(String operation, double result, String message){
-        this.operation=operation;
-        this.result=result;
-        this.message=message;
+    public CalcResponse(String operation, int result, String message) {
+        this.operation = operation;
+        this.result = result;
+        this.message = message;
     }
 
     public String getOperation() {
@@ -25,11 +25,11 @@ public class CalcResponse {
         this.operation = operation;
     }
 
-    public double getResult() {
+    public int getResult() {
         return result;
     }
 
-    public void setResult(double result) {
+    public void setResult(int result) {
         this.result = result;
     }
 

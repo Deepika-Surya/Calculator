@@ -4,32 +4,29 @@ import jakarta.validation.constraints.NotNull;
 
 public class CalcRequest {
 
-    @NotNull(message = "Parameter 'a' is required")
-    private Double a;
-
-    @NotNull(message = "Parameter 'b' is required")
-    private Double b;
+    private int a;
+    private int b;
 
     public CalcRequest() {}
 
-    public CalcRequest(Double a, Double b) {
+    public CalcRequest(int a, int b) {
         this.a = a;
         this.b = b;
     }
 
-    public Double getA() {
+    public int getA() {
         return a;
     }
 
-    public void setA(Double a) {
+    public void setA(int a) {
         this.a = a;
     }
 
-    public Double getB() {
+    public int getB() {
         return b;
     }
 
-    public void setB(Double b) {
+    public void setB(int b) {
         this.b = b;
     }
 
