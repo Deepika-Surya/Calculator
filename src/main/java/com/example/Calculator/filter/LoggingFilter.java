@@ -8,8 +8,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Component
 public class LoggingFilter extends OncePerRequestFilter {
@@ -21,10 +24,17 @@ public class LoggingFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        log.info("Incoming request: {} {}", request.getMethod(), request.getRequestURI());
+        ContentCachingRequestWrapper wrappedRequest = new ContentCachingRequestWrapper(request);
+        ContentCachingResponseWrapper wrappedResponse = new ContentCachingResponseWrapper(response);
 
-        filterChain.doFilter(request, response); // hand over to controller
+        filterChain.doFilter(wrappedRequest, wrappedResponse);
 
-        log.info("Outgoing response: status={}", response.getStatus());
+        String requestBody = new String(wrappedRequest.getContentAsByteArray(), StandardCharsets.UTF_8);
+        String responseBody = new String(wrappedResponse.getContentAsByteArray(), StandardCharsets.UTF_8);
+
+        log.info("Incoming request: {} {} | Body: {}", request.getMethod(), request.getRequestURI(), requestBody);
+        log.info("Outgoing response: status={} | Body: {}", response.getStatus(), responseBody);
+
+        wrappedResponse.copyBodyToResponse();
     }
 }
